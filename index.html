@@ -1,0 +1,127 @@
+<html>
+    
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+	<meta name="theme-color" content="#b784a7" />
+	<meta property="og:image" content="assets/img/discordtoken.png" />
+    <title></title>
+    <meta name="description" content="Check the validity of a Discord token, and get informations about the bot or user." />
+    <meta name="theme-color" content="#b784a7" />
+    <link rel="shortcut icon" type="image/png" href="assets/img/discordtoken.png">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+    <link rel="icon" href="assets/img/discordtoken.png" type="image/png">
+	<link href="assets/css/bundle.css" rel="stylesheet"></head>
+	<link href="assets/css/style.css" rel="stylesheet"></head>
+</head>
+
+
+<body bgcolor="#000000">
+    <center>
+        <br/>
+        <div class="container container">
+            <div class="col-md-10 col-xs-12">
+                <form id="tokenForm">
+                    <div class="form-group">
+                        <label for="inputToken"></label>
+                        <input class="form-control" id="inputToken" type="text" placeholder="Paste the token you want to check" name="token" style="width: 50%;" required></input>
+                    </div>
+                    <!-- ./form-group -->
+                    <div class="pull-center">
+                        <button type="button" id="senden" style="color: white; border-radius: 10%; border: 0;" class="btn btn-success">Go</button>
+                    </div>
+                    <!-- ./pull-center -->
+                </form>
+                <br>
+                <div id="result">
+                </div>
+                <!-- ./result -->
+                <div id="loading" style="display: none;">
+                    <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+                </div>
+                <!-- ./loading -->
+            </div>
+            <!-- ./col -->
+        </div>
+        <!-- ./container -->
+    </center>
+    <script src="assets/js/jquery-3.4.1.min.js"></script>
+    <script src="assets/js/discord.11.5-dev.min.js"></script>
+    <script src="assets/js/moment.min.js"></script>
+    <script>
+        $("#senden").click(function() {
+            document.getElementById("loading").style.display = "block";
+            $("#result").children().remove();
+            let token = $("#tokenForm").serialize().split("=")[1];
+            let client = new Discord.Client();
+            client.login(token).then(async () => {
+                if(client.user.bot){
+                    let app = await client.fetchApplication();
+                    let owner = `${app.owner.tag || app.owner.owner.user.tag} (${app.owner.id || app.owner.user.id})`;
+                    let createdAt = moment(client.user.createdAt, "YYYYMMDD").fromNow();
+                    let avatarURL = client.user.displayAvatarURL;
+                    let inviteURL = await client.generateInvite();
+                    let result = `
+                        <ul style="display: inline-block">
+                            <li style="display: inline-block; padding-right: 2em;">
+                                <a href="${avatarURL}" target="_blank"><img src="${avatarURL}" style="border-radius: 50%; width: 5em;"></a><br>
+                                <br><div>${client.user.tag}</div>
+                                <div><font color="#808080">${client.user.id}</font><div>
+                            </li>
+                            <li style="float: right;">
+                                <font color="#808080">
+                                    <div>Created <font color="#FFFFFF">${createdAt}</font></div>
+                                    <div>Used by <font color="#FFFFFF">${client.guilds.size}</font> servers for a total of <font color="#FFFFFF">${client.users.size}</font> users</div>
+                                    <div>Owned by <font color="#FFFFFF">${owner}</font></div>
+                                    <div>This bot is <font color="#FFFFFF">${app.botPublic ? `public</font>, invite it with <a style="color: #7289DA;" href="${inviteURL}" target="_blank">this link</a>` : `private</font>`}</div>
+                                    <div>Current bot status is <font color="#FFFFFF">${client.user.presence.status}</font><div>
+                                    <div>Current bot game is <font color="#FFFFFF">${client.user.presence.game ? client.user.presence.game.name : "nothing"}</font>
+                                </font>
+                            </li>
+                        </ul>`;
+                    document.getElementById("loading").style.display = "none";
+                    $("#result").append(result);
+                    client.destroy();
+                } else {
+                    let createdAt = moment(client.user.createdAt, "YYYYMMDD").fromNow();
+                    let avatarURL = client.user.displayAvatarURL;
+                    let result = `
+                        <ul style="display: inline-block">
+                            <li style="display: inline-block; padding-right: 2em;">
+                                <a href="${avatarURL}" target="_blank"><img src="${avatarURL}" style="border-radius: 50%; width: 5em;"></a><br>
+                                <br><div>${client.user.tag}</div>
+                                <div>${client.user.email}</div>
+                                <div><font color="#808080">${client.user.id}</font><div>
+                            </li>
+                            <li style="float: right;">
+                            <br>
+                                <font color="#808080">
+                                    <div>Created <font color="#FFFFFF">${createdAt}</font></div>
+                                    <div>On <font color="#FFFFFF">${client.guilds.size}</font> servers</div>
+                                    <div>Nitro Subscription: <font color="#FFFFFF">${client.user.premium ? "yes" : "no"}</font></div>
+                                    <div>2FA Security <font color="#FFFFFF">${client.user.mfaEnabled ? "enabled" : "disabled"}</font></div>
+                                    <div>Friends with <font color="#FFFFFF">${client.user.friends.size}</font> users</div>
+                                    <div>Notes available for <font color="#FFFFFF">${client.user.notes.size}</font> users</div>
+                                </font>
+                            </li>
+                        </ul>`;
+                    document.getElementById("loading").style.display = "none";
+                    $("#result").append(result);
+                    client.destroy();
+                }
+            }).catch((err) => {
+                if((err.message !== "Incorrect login details were provided.") && (err.message !== "An invalid token was provided.")) return alert(err.message);
+                document.getElementById("loading").style.display = "none";
+                $("#result").append('<p style="background-color: #f76454; color: white; font-family: Nunito; font-size: 1em; border-radius: 10px; padding: 0.5em;"> Um... Looks like this token isn\'t valid! :\'( </p>');
+                setTimeout(function(){
+                    $("#result").children("p").remove();
+                }, 3000);
+                client.destroy();
+            });
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,245 @@
+@font-face {
+	font-family: "Logos";
+	font-style: normal;
+	font-weight: normal;
+	font-display: auto;
+	src: url("../fonts/fa.ttf") format("truetype")
+}
+
+.fa-valid:before {
+	content: "\f00c  Discord Token Validator";
+	font-family: Logos, Nunito;
+	color: white;
+	font-size: 1.5em;
+	font-style: Normal;
+	margin: 0.5em;
+}
+
+.lds-ring {
+	display: inline-block;
+	position: relative;
+	width: 64px;
+	height: 64px;
+}
+
+.lds-ring div {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 51px;
+	height: 51px;
+	margin: 6px;
+	border: 6px solid #fff;
+	border-radius: 50%;
+	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: #fff transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+	animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+	animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+	animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+html,
+body {
+	height: 100%;
+	width: 100%;
+	margin: 0;
+	outline: 0;
+	padding: 0;
+	font-family: "Nunito", sans-serif;
+	font-size: 1.2em;
+}
+
+body {
+	background-color: #000000;
+	color: #DDD;
+}
+
+h3 {
+	color: #FFF;
+	font-weight: normal;
+}
+
+a.disabled {
+	color: #999;
+	cursor: not-allowed;
+}
+
+a {
+	color: #FFF;
+}
+
+.light {
+	background-color: #FFF;
+	color: #000;
+}
+
+.light h3 {
+	color: #000;
+	font-weight: normal;
+}
+
+.light a {
+	color: rgb(255, 9, 103);
+}
+
+.light .eyes {
+	filter: invert(1);
+}
+
+input[type="text"] {
+	background-color: transparent;
+	border: none;
+	border-bottom: 2px solid #FF0967
+;
+	color: #FFF;
+	outline: none;
+	padding: .25em;
+}
+
+input[type="text"].error {
+	border-bottom: 2px solid #F00;
+}
+
+input[type="text"].success {
+	border-bottom: 2px solid #2F2;
+}
+
+.small {
+	font-size: .8em;
+}
+
+.container {
+	margin: 0 auto;
+	max-width: 1280px;
+	padding: .5em;
+}
+
+.header,
+.footer {
+	background-color: #FF0967;
+	color: #FFF;
+}
+
+.header {
+	max-height: 3rem;
+	text-align: center;
+	z-index: 1;
+}
+
+.header .logo {
+	height: 100%;
+	width: auto;
+	max-height: 3.5rem;
+	max-width: 100%;
+	object-fit: contain;
+	vertical-align: middle;
+}
+
+.header .right-link {
+	float: right;
+	padding: .75em 1em;
+	text-decoration: none;
+	z-index: 1;
+}
+
+.header .right-link.eyes {
+	padding: 0 .5em;
+}
+
+.header .eyes img {
+	height: 100%;
+	width: auto;
+	max-height: 3rem;
+	max-width: 100%;
+	object-fit: contain;
+	vertical-align: middle;
+}
+
+.header .title {
+	font-size: 1.5rem;
+	line-height: 3rem;
+	height: 100%;
+	vertical-align: middle;
+}
+
+ul {
+	display: inline-block;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.footer {
+	box-sizing: border-box;
+	height: 3em;
+	max-height: 3em;
+	font-size: .8em;
+	margin: 0;
+	padding: 1em;
+}
+
+a {
+	text-decoration: none
+}
+
+.large-only {
+	display: none;
+}
+
+.oauth a {
+	display: inline-block;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	vertical-align: bottom;
+	white-space: initial;
+	word-wrap: break-word;
+}
+
+.orangutan-not-orange {
+	color: #FAA61A;
+}
+
+.light .orangutan-not-orange {
+	color: #C88414;
+}
+
+.container.stacky-footer {
+	box-sizing: border-box;
+	z-index: 0;
+	min-height: calc(100vh - 3em - 3em);
+}
+
+@media only screen and (min-width: 640px) {
+	.footer {
+		font-size: 1em;
+	}
+	.large-only {
+		display: inline-block;
+	}
+	span.large-only {
+		display: inline;
+	}
+	.selector .col-me-maybe {
+		/* More 3s than AP season */
+		width: 33.3333333333%;
+	}
+}
